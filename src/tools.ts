@@ -85,3 +85,10 @@ export const removeComma = (str: string) => {
     return str.slice(0, -1);
 };
 
+export const isDigit = (char: string) => {
+    return char >= "0" && char <= "9";
+}
+
+export const isSign = (char: string) => {
+    return char === "-" || char === "+";
+}

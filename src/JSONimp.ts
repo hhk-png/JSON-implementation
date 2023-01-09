@@ -1,8 +1,19 @@
-import { falsyTypes, ignoreTypes, isArray, isDate, isObject, isString, isUndefined, normalTypes, nullTypes, removeComma } from './tools'
+import {
+    falsyTypes,
+    ignoreTypes,
+    isArray,
+    isDate,
+    isObject,
+    isString,
+    isUndefined,
+    normalTypes,
+    nullTypes,
+    removeComma,
+    isDigit,
+    isSign
+} from './tools'
 
 const ISORegExp = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$/
-
-
 
 const stringfy = (obj: any): string | undefined => {
     // undefined function symbol 三种类型不能转换为JSON
@@ -53,22 +64,7 @@ const stringfy = (obj: any): string | undefined => {
         });
         return `{${removeComma(result)}}`;
     }
-};
-
-// function JSONImp() {
-//     let i: number = 0;
-
-//     // 空格
-//     const skipWhitespace = () => {
-//         while (/\s/.test(str[i])) {
-//             i++;
-//         }
-//     };
-
-//     return () => {
-
-//     }
-// }
+}
 
 const parse = (str: string) => {
     let i: number = 0;
@@ -98,12 +94,12 @@ const parse = (str: string) => {
     const expectObjectKey = () => {
         printCodeSnippet(`Expecting object key here
 
-        For example:
-        { "foo": "bar" }
-          ^^^^^`);
+For example:
+{ "foo": "bar" }
+    ^^^^^`);
         throw new Error("JSON_ERROR_0003 Expecting JSON Key");
     }
-    
+
     // 数据结构的最后应该以 expected 结尾
     const expectNotEndOfInput = (expected: string) => {
         printCodeSnippet(`Expecting a \`${expected}\` here`);
@@ -148,15 +144,6 @@ ${" ".repeat(numSoFar.length)}^`);
         }
     }
 
-    // 字符串是数字
-    const isDigit = (char: string) => {
-        return char >= "0" && char <= "9";
-    }
-
-    const isSign = (char: string) => {
-        return char === "-" || char === "+";
-    }
-
     // 空格
     const skipWhitespace = () => {
         while (/\s/.test(str[i])) {
@@ -184,7 +171,6 @@ ${" ".repeat(numSoFar.length)}^`);
         );
     }
 
-    // ""
     const parseString = () => {
         if (str[i] === '"') {
             // "
