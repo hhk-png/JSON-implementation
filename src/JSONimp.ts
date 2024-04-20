@@ -42,7 +42,7 @@ const stringify = (obj: any): string | undefined => {
   if (isArray(obj)) {
     let result: string = ''
     obj.forEach((value: any) => {
-      result += falsyTypes(value) ? stringfy(null) : stringfy(value)
+      result += falsyTypes(value) ? stringify(null) : stringify(value)
       result += ','
     })
     return `[${removeComma(result)}]`
@@ -53,7 +53,7 @@ const stringify = (obj: any): string | undefined => {
     let result: string = ''
     Object.keys(obj).forEach((key) => {
       const value = obj[key]
-      result += !ignoreTypes(value) ? `"${key}":${stringfy(value)},` : ''
+      result += !ignoreTypes(value) ? `"${key}":${stringify(value)},` : ''
     })
     return `{${removeComma(result)}}`
   }

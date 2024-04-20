@@ -9,54 +9,91 @@ const testObj = {
   wife: null,
 }
 
-const nestedObj = {
-  ...testObj,
-  address: {
-    city: 'San Francisco',
-    zipCode: 94130,
-  },
+const test = (value: any) => {
+  const result = parse(stringify(value))
+  expect(stringify(value)).toBe(stringify(result))
 }
-const objWithDate = {
-  ...testObj,
-  birthDate: new Date(),
-}
-
-const testCases = [
-  // { value: 1234, key: 'Number' },
-  // { value: 'test', key: 'String' },
-  { value: true, key: 'Boolean' },
-  { value: testObj, key: 'Object' },
-  { value: nestedObj, key: 'Nested Objects' },
-  { value: [1, 2, 3, null], key: 'Array' },
-  { value: [1, 2, Symbol(), 4, [undefined, 8, 9, [10]]], key: 'Nested Array' },
-  {
-    value: { ...testObj, testArr: [1, 2, 3, () => {}, [10]] },
-    key: 'Object with Arrays',
-  },
-  { value: new Date(), key: 'Date' },
-  { value: objWithDate, key: 'Object with Date' },
-  { value: null, key: 'Null' },
-  { value: undefined, key: 'Undefined' },
-  { value: () => {}, key: 'Function' },
-  { value: { ...testObj, testFunc: () => {} }, key: 'Object with Function' },
-]
-
-
 
 describe('parse and stringfy', () => {
   it('Number', () => {
     const value = 1234
-    const result = parse(stringify(value))
-    expect(stringify(value)).toBe(stringify(result))
+    test(value)
   })
 
   it('String', () => {
     const value = 'test'
-    const result = parse(stringify(value))
-    expect(stringify(value)).toBe(stringify(result))
+    test(value)
   })
 
   it('Boolean', () => {
     const value = true
+    test(value)
+  })
+
+  it('Object', () => {
+    const value = testObj
+    test(value)
+  })
+
+  it('Nested Objects', () => {
+    const value = {
+      ...testObj,
+      address: {
+        city: 'San Francisco',
+        zipCode: 94130,
+      }
+    }
+    test(value)
+  })
+
+  it('Array', () => {
+    const value = [1, 2, 3, null]
+    test(value)
+  })
+
+  it('Nested Array', () => {
+    const value = [1, 2, Symbol(), 4, [undefined, 8, 9, [10]]]
+    test(value)
+  })
+
+  it('Object with Arrays', () => {
+    const value = { ...testObj, testArr: [1, 2, 3, () => {}, [10]] }
+    test(value)
+  })
+
+  it('Date', () => {
+    const value = new Date()
+    test(value)
+  })
+
+  it('Object with Date', () => {
+    const value = {
+      ...testObj,
+      birthDate: new Date(),
+    }
+    test(value)
+  })
+
+  it('Null', () => {
+    const value = null
+    test(value)
+  })
+
+  it('Undefined', () => {
+    const value = undefined
+    test(value)
+  })
+
+  it('function', () => {
+    const value = () => {}
+    expect(stringify(value)).toBe(undefined)
+
+    const value2 = (function() { return 'test' })
+    expect(stringify(value2)).toBe(undefined)
+  })
+
+  it('Object with Function', () => {
+    const value = { ...testObj, testFunc: () => {} }
+    test(value)
   })
 })
