@@ -62,6 +62,15 @@ const stringify = (obj: any): string | undefined => {
 }
 
 const parse = (str: string | undefined) => {
+  if (isUndefined(str)) {
+    throw new Error(
+      `VM562:1 Uncaught SyntaxError: "undefined" is not valid JSON`
+    )
+  }
+  return parseStr(str!)
+}
+
+const parseStr = (str: string) => {
   let i: number = 0
 
   // 错误处理：
@@ -70,7 +79,7 @@ const parse = (str: string | undefined) => {
     const trimmed = from > 0
     const padding = (trimmed ? 4 : 0) + (i - from)
     const snippet = [
-      (trimmed ? '... ' : '') + str.slice(from, i + 1),
+      (trimmed ? '... ' : '') + str!.slice(from, i + 1),
       ' '.repeat(padding) + '^',
       ' '.repeat(padding) + message,
     ].join('\n')
@@ -365,12 +374,6 @@ ${' '.repeat(numSoFar.length)}^`)
       parseKeyword('null', null)
     skipWhitespace()
     return value
-  }
-
-  if (isUndefined(str)) {
-    throw new Error(
-      `VM562:1 Uncaught SyntaxError: "undefined" is not valid JSON`
-    )
   }
 
   const value = parseValue()
