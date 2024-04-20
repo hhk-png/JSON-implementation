@@ -232,6 +232,8 @@ ${' '.repeat(numSoFar.length)}^`)
         return new Date(result)
       }
       return result
+    } else {
+      return undefined
     }
   }
 
@@ -281,6 +283,7 @@ ${' '.repeat(numSoFar.length)}^`)
     if (i > start) {
       return Number(str.slice(start, i))
     }
+    return undefined
   }
 
   // 解析特定的关键字
@@ -289,6 +292,8 @@ ${' '.repeat(numSoFar.length)}^`)
     if (str.slice(i, i + name.length) === name) {
       i += name.length
       return value
+    } else {
+      return undefined
     }
   }
 
@@ -359,6 +364,8 @@ ${' '.repeat(numSoFar.length)}^`)
       // ]
       i++
       return result
+    } else {
+      return undefined
     }
   }
 
