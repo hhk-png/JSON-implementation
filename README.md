@@ -1,8 +1,8 @@
-个人项目
+Personal projects.
 
-src/JSONImp.ts 文件是 `JSON.stringfy()` 和 `JSON.parse()` 的具体实现，`main.ts` 包含了一些测试用例。
+The src/JSONImp.ts file is the specific implementation of `JSON.stringfy()` and `JSON.parse()`. Some test cases are included in the main.ts file.
 
-项目使用 vite(vanilla)。使用 `pnpm run dev` 可运行项目
+The package tool of this project is vite(vanilla). Please use `pnpm run dev` start the project.
 
 
 
