@@ -64,6 +64,8 @@ const stringfy = (obj: any): string | undefined => {
         });
         return `{${removeComma(result)}}`;
     }
+
+    return ""
 }
 
 const parse = (str: string) => {

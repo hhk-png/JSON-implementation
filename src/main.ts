@@ -1,5 +1,5 @@
-import './style.css'
-import JSONimp from './JSONimp';
+// import './style.css'
+import JSONimp from './JSONimp.ts';
 
 const testObj = {
     name: 'John',
