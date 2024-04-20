@@ -148,6 +148,12 @@ ${' '.repeat(numSoFar.length)}^`)
     }
   }
 
+  const expectNotCharacter = (expected: string) => {
+    if (str[i] === expected) {
+      throw new SyntaxError(`Unexpected token '${expected}', "${str}" is not valid JSON`)
+    }
+  }
+
   // 空格
   const skipWhitespace = () => {
     while (/\s/.test(str[i])) {
@@ -352,6 +358,7 @@ ${' '.repeat(numSoFar.length)}^`)
           eatComma()
           skipWhitespace()
         }
+        expectNotCharacter(']')
         const value = parseValue()
         skipWhitespace()
         result.push(value)

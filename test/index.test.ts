@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, assert } from 'vitest'
 import { parse, stringify } from '../src/JSONimp.ts'
 
 const testObj = {
@@ -56,6 +56,11 @@ describe('parse and stringfy', () => {
     test(value)
   })
 
+  it('parse invalid Array', () => {
+    const value = "[1, 2, 3,]"
+    expect(() => parse(value)).toThrowError("Unexpected token")
+  })
+
   it('Object with Arrays', () => {
     const value = { ...testObj, testArr: [1, 2, 3, () => {}, [10]] }
     test(value)
@@ -97,3 +102,4 @@ describe('parse and stringfy', () => {
     test(value)
   })
 })
+
