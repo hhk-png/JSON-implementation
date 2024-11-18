@@ -118,17 +118,7 @@ For example:
 ${' '.repeat(strSoFar.length + 1)}^^^^^^`)
     throw new Error('JSON_ERROR_0009 Expecting an escape unicode')
   }
-
-  const expectEscapeCharacter = (strSoFar: string) => {
-    printCodeSnippet(`JSON_ERROR_0007 Expecting escape character
-
-For example:
-"${strSoFar}\\n"
-${' '.repeat(strSoFar.length + 1)}^^
-List of escape characters are: \\", \\\\, \\/, \\b, \\f, \\n, \\r, \\t, \\u`)
-    throw new Error('JSON_ERROR_0008 Expecting an escape character')
-  }
-
+  
   // 期望数字
   const expectDigit = (numSoFar: string) => {
     if (!isDigit(str[i])) {
@@ -188,39 +178,41 @@ ${' '.repeat(numSoFar.length)}^`)
       let result = ''
       while (str[i] !== '"') {
         if (str[i] === '\\') {
-          const char = str[i + 1]
-
-          if (
-            char === '"' ||
-            char === '\\' ||
-            char === '/' ||
-            char === 'b' ||
-            char === 'f' ||
-            char === 'n' ||
-            char === 'r' ||
-            char === 't'
-          ) {
-            // \" \/ \b \f \n \r \t
-            result += char
-            i++
+          i++
+          const char = str[i]
+          if (char === '"') {
+            result += '"'
+          } else if (char === '\\') {
+            result += '\\'
+          } else if (char === '/') {
+            result += '/'
+          } else if (char === 'b') {
+            result += '\b'
+          } else if (char === 'f') {
+            result += '\f'
+          } else if (char === 'n') {
+            result += '\n'
+          } else if (char === 'r') {
+            result += '\r'
+          } else if (char === 't') {
+            result += '\t'
           } else if (char === 'u') {
             // \u unicode-16 编码
             if (
+              isHexadecimal(str[i + 1]) &&
               isHexadecimal(str[i + 2]) &&
               isHexadecimal(str[i + 3]) &&
-              isHexadecimal(str[i + 4]) &&
-              isHexadecimal(str[i + 5])
+              isHexadecimal(str[i + 4])
             ) {
               result += String.fromCharCode(
-                parseInt(str.slice(i + 2, i + 6), 16)
+                parseInt(str.slice(i + 1, i + 5), 16)
               )
-              i += 5
+              i += 4
             } else {
-              i += 2
               expectEscapeUnicode(result)
             }
           } else {
-            expectEscapeCharacter(result)
+            result += char
           }
         } else {
           result += str[i]
@@ -258,14 +250,8 @@ ${' '.repeat(numSoFar.length)}^`)
       // i 位置应该为数字
       expectDigit(str.slice(start, i))
     }
-    while (str[i] === '0') {
+    while (isDigit(str[i])) {
       i++
-    }
-    if (str[i] >= '1' && str[i] <= '9') {
-      i++
-      while (isDigit(str[i])) {
-        i++
-      }
     }
 
     if (str[i] === '.') {
@@ -342,6 +328,8 @@ ${' '.repeat(numSoFar.length)}^`)
       // }
       i++
       return result
+    } else {
+      return undefined
     }
   }
 
@@ -349,6 +337,7 @@ ${' '.repeat(numSoFar.length)}^`)
   // [ value1, ]
   const parseArray = () => {
     if (str[i] === '[') {
+      // [
       i++
       skipWhitespace()
       const result = []

@@ -9,6 +9,14 @@ const testObj = {
   wife: null,
 }
 
+console.log(parse('{"name":"aaaa\u1234"}'))
+
+describe('a', () => {
+  it('a', () => { 
+    expect(1).toBe(1)
+  })
+})
+
 const test = (value: any) => {
   const result = parse(stringify(value))
   expect(stringify(value)).toBe(stringify(result))
